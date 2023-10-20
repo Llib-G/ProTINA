@@ -2,7 +2,7 @@
 
 export(generatePGN)
 export(generateSlope)
-export(protina)
+export(protinapb)
 import(BSDA)
 import(doParallel)
 import(foreach)
