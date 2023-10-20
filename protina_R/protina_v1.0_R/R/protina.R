@@ -54,13 +54,13 @@ protinapb <- function(lfc,slope=NULL,pgn,grplist,kfold=10,par=FALSE,numCores=4){
     opts <- list(progress=progress)
 
     Sys.sleep(3)
-    
     A <- foreach(j=1:length(dg),.combine = rbind,.packages = "glmnet")%dopar%{
+      pb$tick(1)
+      Sys.sleep(1 / 100)
+      
       cat(sprintf("Inferring weights in PGN: (%6.3f)%%\n",(100*j/length(dg))))
       ppar <- pgn$i[pgn$j==dg[j]]
 
-      Sys.sleep(1 / 100)      
-      
       if(!is.null(slope)){
         X <- X0
         X[,m+1:ms] <- rho[dg[j]]*X[,m+1:ms] #scaling slope variables
