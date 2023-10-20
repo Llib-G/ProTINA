@@ -16,7 +16,7 @@
 #' \item{A}{The matrix of edge weights of the PGN. The (i,j)-th element of the matrix corresponds to the weight of the regulatory edge from protein j to gene i in the PGN, i.e.the regulation of the expression of gene i  by protein j. The rwos and columns of the matrix correspond to genes and proteins in the PGN.}
 #' 
 #' @export
-protina <- function(lfc,slope=NULL,pgn,grplist,kfold=10,par=FALSE,numCores=4){
+protinapb <- function(lfc,slope=NULL,pgn,grplist,kfold=10,par=FALSE,numCores=4){
   
   n <- dim(lfc)[1]
   m <- dim(lfc)[2]
