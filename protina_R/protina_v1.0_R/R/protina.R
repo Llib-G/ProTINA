@@ -47,10 +47,19 @@ protina <- function(lfc,slope=NULL,pgn,grplist,kfold=10,par=FALSE,numCores=4){
     library(foreach)
     cl <- makeCluster(numCores,outfile='')
     registerDoParallel(cl)
+
+    ## progress bar in parallel computing
+    pb <- txtProgressBar(max=length(dg), style=3)
+    progress <- function(n) setTxtProgressBar(pb, n)
+    opts <- list(progress=progress)
+
+    Sys.sleep(3)
     
     A <- foreach(j=1:length(dg),.combine = rbind,.packages = "glmnet")%dopar%{
       cat(sprintf("Inferring weights in PGN: (%6.3f)%%\n",(100*j/length(dg))))
       ppar <- pgn$i[pgn$j==dg[j]]
+
+      Sys.sleep(1 / 100)      
       
       if(!is.null(slope)){
         X <- X0
@@ -77,6 +86,7 @@ protina <- function(lfc,slope=NULL,pgn,grplist,kfold=10,par=FALSE,numCores=4){
       r[ppar] <- Aj[1:(length(Aj)-m)]
       r
     }
+    close(pb)    
   }else{
     A <- matrix(0,nrow = length(dg), ncol = n)
     for (j in 1:length(dg)) {
