@@ -1,4 +1,4 @@
-Package: protina
+Package: protinapb
 Title: Protein Target Inference by Network Analysis
 Version: 0.1.0
 Authors@R: c(
@@ -13,7 +13,8 @@ Imports: glmnet,
 	slam,
 	doParallel,
 	foreach,
-	BSDA
+	BSDA,
+	progress
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
