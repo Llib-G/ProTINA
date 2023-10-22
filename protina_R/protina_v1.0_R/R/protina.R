@@ -45,18 +45,23 @@ protinapb <- function(lfc,slope=NULL,pgn,grplist,kfold=10,par=FALSE,numCores=4){
   if(par){
     library(doParallel)
     library(foreach)
+    library(progress)
+    library(pbapply)
+    
     cl <- makeCluster(numCores,outfile='')
     registerDoParallel(cl)
 
     ## progress bar in parallel computing
-    pb <- txtProgressBar(max=length(dg), style=3)
-    progress <- function(n) setTxtProgressBar(pb, n)
-    opts <- list(progress=progress)
+    progress <- function(n) {
+      pb <- txtProgressBar(min = 0, max = n, style = 3)
+      progressbar::setpb(pb)
+      pb
+    }
 
     Sys.sleep(3)
     A <- foreach(j=1:length(dg),.combine = rbind,.packages = "glmnet")%dopar%{
-      pb$tick(1)
-      Sys.sleep(1 / 100)
+    setTxtProgressBar(progress(length(dg)), j)
+    Sys.sleep(1 / 100)
       
       cat(sprintf("Inferring weights in PGN: (%6.3f)%%\n",(100*j/length(dg))))
       ppar <- pgn$i[pgn$j==dg[j]]
