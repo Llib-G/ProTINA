@@ -54,7 +54,7 @@ protinapb <- function(lfc,slope=NULL,pgn,grplist,kfold=10,par=FALSE,numCores=4){
     ## progress bar in parallel computing
     progress <- function(n) {
       pb <- txtProgressBar(min = 0, max = n, style = 3)
-      progressbar::setpb(pb)
+      pbapply::setpb(pb)
       pb
     }
 
